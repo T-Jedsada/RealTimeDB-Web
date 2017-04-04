@@ -1,0 +1,42 @@
+<html>
+
+<body>
+  <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+  <b id="temp">Temperature : loading...</b><br>
+  <b id="humid">Humidity : loading...</b><br>
+  <b id="macAddress">Mac Address : loading...</b>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyB6tu9ummPhnlFB9yiKwHk8ADC975Ax4P4",
+      authDomain: "charming-aegis-855.firebaseapp.com",
+      databaseURL: "https://charming-aegis-855.firebaseio.com",
+      projectId: "charming-aegis-855",
+      storageBucket: "charming-aegis-855.appspot.com",
+      messagingSenderId: "449363122108"
+    };
+
+    firebase.initializeApp(config);
+
+    var database = firebase.database();
+    var commentsRef = firebase.database().ref('EspressoLiteV2');
+    commentsRef.on('child_added', function (data) {
+      console.log(data.macAddress);
+      document.getElementById("temp").innerHTML = "Temperature : " + data.val().temperature
+      document.getElementById("humid").innerHTML = "Humidity : " + data.val().humidity
+      document.getElementById("macAddress").innerHTML = "Mac Address : " + data.val().macAddress
+    });
+
+    commentsRef.on('child_changed', function (data) {
+      document.getElementById("temp").innerHTML = "Temperature : " + data.val().temperature
+      document.getElementById("humid").innerHTML = "Humidity : " + data.val().humidity
+      document.getElementById("macAddress").innerHTML = "Mac Address : " + data.val().macAddress
+    });
+
+    commentsRef.on('child_removed', function (data) {
+      // TODO : on data delete
+    });
+  </script>
+</body>
+
+</html>
